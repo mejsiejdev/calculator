@@ -1,0 +1,36 @@
+.primary,
+.secondary,
+.delete {
+  @apply p-1 rounded-xl cursor-pointer flex flex-row items-center justify-center transition;
+}
+
+.primaryText,
+.secondaryText,
+.deleteText {
+}
+
+.primaryIcon,
+.secondaryIcon,
+.deleteIcon {
+  @apply h-10 w-10;
+}
+
+.secondary {
+  @apply border-2 border-green-300 hover:bg-green-50 fill-green-400 text-green-400;
+}
+
+.secondaryText {
+  @apply text-green-400;
+}
+
+.secondaryIcon {
+  @apply fill-green-400;
+}
+
+.delete {
+  @apply bg-red-500 hover:bg-red-700;
+}
+
+.deleteIcon {
+  @apply fill-white;
+}
