@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { evaluate, format } from "mathjs";
 import { IconType } from "react-icons";
 import {
   MdClose,
@@ -5,16 +7,16 @@ import {
   MdAdd,
   MdDelete,
   MdDragHandle,
+  MdOutlineBackspace,
+  MdOutlineCalculate,
 } from "react-icons/md";
-import { RiDivideFill } from "react-icons/ri";
+import { RiPercentLine, RiDivideFill } from "react-icons/ri";
 import Button from "./components/Button";
 
-const buttons = ["C", "()", "%", 1, 2, 3, 4, 5, 6, 7, 8, 9, "+/-", 0, "."];
-
 type Action = {
-  content: IconType | "string";
+  content: IconType | string;
   onClick: () => void;
-  tooltip: string;
+  tooltip?: string;
   style?: "primary" | "secondary" | "delete";
 };
 
@@ -26,10 +28,34 @@ const actions: Action[] = [
     style: "delete",
   },
   {
+    content: MdOutlineBackspace,
+    onClick: () => {},
+    tooltip: "Delete one character",
+    style: "secondary",
+  },
+  {
+    content: RiPercentLine,
+    onClick: () => {},
+    tooltip: "Modulo",
+    style: "secondary",
+  },
+  {
     content: RiDivideFill,
     onClick: () => {},
     tooltip: "Divide",
     style: "secondary",
+  },
+  {
+    content: "7",
+    onClick: () => {},
+  },
+  {
+    content: "8",
+    onClick: () => {},
+  },
+  {
+    content: "9",
+    onClick: () => {},
   },
   {
     content: MdClose,
@@ -38,10 +64,34 @@ const actions: Action[] = [
     style: "secondary",
   },
   {
+    content: "4",
+    onClick: () => {},
+  },
+  {
+    content: "5",
+    onClick: () => {},
+  },
+  {
+    content: "6",
+    onClick: () => {},
+  },
+  {
     content: MdRemove,
     onClick: () => {},
     tooltip: "Subtract",
     style: "secondary",
+  },
+  {
+    content: "1",
+    onClick: () => {},
+  },
+  {
+    content: "2",
+    onClick: () => {},
+  },
+  {
+    content: "3",
+    onClick: () => {},
   },
   {
     content: MdAdd,
@@ -50,53 +100,47 @@ const actions: Action[] = [
     style: "secondary",
   },
   {
+    content: "+/-",
+    onClick: () => {},
+  },
+  {
+    content: "0",
+    onClick: () => {},
+  },
+  {
+    content: ".",
+    onClick: () => {},
+  },
+  {
     content: MdDragHandle,
     onClick: () => {},
     tooltip: "Calculate",
-    style: "secondary",
+    style: "primary",
   },
 ];
 
 const App: React.FC = () => {
-  console.log(typeof actions[0].content);
+  const [currentValue, setCurrentValue] = useState<string>("sqrt(4)");
+  const result = format(evaluate(currentValue), { precision: 14 });
   return (
     <div className="w-full bg-slate-100 min-h-screen flex flex-col items-center gap-6 justify-center">
-      <p className="text-4xl font-semibold">Calculator</p>
+      <div className="flex flex-row items-center justify-center gap-2">
+        <p className="text-4xl font-semibold">Calculator</p>
+        <MdOutlineCalculate className="h-12 w-12" />
+      </div>
       <div className="max-w-sm w-full p-3 bg-white shadow-xl rounded-xl flex flex-col gap-3">
-        <div className="flex flex-col items-end justify-center">
-          <p className="text-3xl font-bold">7324872364823647823</p>
-          <p className="text-slate-600">364364+4545</p>
+        <div className="flex flex-col items-end justify-center gap-1">
+          <p className="text-4xl font-bold">{currentValue}</p>
+          {currentValue === result ? null : currentValue !== "" ? (
+            <p className="text-slate-600 text-xl">{result}</p>
+          ) : (
+            <p className="text-slate-600 text-xl">Start calculating!</p>
+          )}
         </div>
         <hr />
         <div className="grid grid-cols-4 gap-2 w-full">
-          {/*
-            <div className="border-2 p-1 rounded-xl hover:bg-red-50 cursor-pointer border-red-400 flex flex-row items-center justify-center transition">
-              <MdDeleteOutline className="h-10 w-10 fill-red-500" />
-            </div>
-            <div className="border-2 p-1 rounded-xl hover:bg-green-50 cursor-pointer border-green-300 flex flex-row items-center justify-center transition">
-              <RiDivideFill className="h-10 w-10 fill-green-400" />
-            </div>
-            <div className="border-2 p-1 rounded-xl hover:bg-green-50 cursor-pointer border-green-300 flex flex-row items-center justify-center transition">
-              <MdRemove className="h-10 w-10 fill-green-400" />
-            </div>
-            <div className="border-2 p-1 rounded-xl hover:bg-green-50 cursor-pointer border-green-300 flex flex-row items-center justify-center transition">
-              <MdAdd className="h-10 w-10 fill-green-400" />
-            </div>
-            <div className="border-2 p-1 rounded-xl hover:bg-green-50 cursor-pointer border-green-300 flex flex-row items-center justify-center transition">
-              <MdClose className="h-10 w-10 fill-green-400" />
-            </div>
-            <div className="p-1 rounded-xl hover:bg-green-500 cursor-pointer bg-green-400 flex flex-row items-center justify-center transition">
-              <MdDragHandle className="h-10 w-10 fill-white" />
-            </div>
-            */}
-
-          {/*buttons.map((button) => (
-            <div className="border-2 p-1 rounded-xl hover:bg-slate-50 cursor-pointer border-slate-600 flex flex-row items-center justify-center transition">
-              <p className="text-2xl font-bold text-slate-700">{button}</p>
-            </div>
-          ))*/}
           {actions.map((action: Action, key) => (
-            <Button {...action} key={key}/>
+            <Button {...action} key={key} />
           ))}
         </div>
       </div>
