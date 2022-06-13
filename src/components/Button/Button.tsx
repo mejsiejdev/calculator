@@ -5,9 +5,9 @@ import Tooltip from "../Tooltip";
 import styles from "./Button.module.css";
 
 type Props = {
-  content: IconType | "string";
+  content: IconType | string;
   onClick: () => void;
-  tooltip: string;
+  tooltip?: string;
   style?: "primary" | "secondary" | "delete";
 };
 
@@ -20,17 +20,33 @@ const Button: React.FC<Props> = (buttonData) => {
           ? styles.primary
           : buttonData.style === "secondary"
           ? styles.secondary
-          : styles.delete
+          : buttonData.style === "delete"
+          ? styles.delete
+          : styles.default
       }
       onClick={buttonData.onClick}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <AnimatePresence>
-        {showTooltip && <Tooltip content={buttonData.tooltip} />}
-      </AnimatePresence>
+      {buttonData.tooltip && (
+        <AnimatePresence>
+          {showTooltip && <Tooltip content={buttonData.tooltip} />}
+        </AnimatePresence>
+      )}
       {typeof buttonData.content === "string" ? (
-        <p>{buttonData.content}</p>
+        <p
+          className={
+            buttonData.style === "primary"
+              ? styles.primaryText
+              : buttonData.style === "secondary"
+              ? styles.secondaryText
+              : buttonData.style === "delete"
+              ? styles.deleteText
+              : styles.defaultText
+          }
+        >
+          {buttonData.content}
+        </p>
       ) : (
         <buttonData.content
           className={
@@ -38,7 +54,9 @@ const Button: React.FC<Props> = (buttonData) => {
               ? styles.primaryIcon
               : buttonData.style === "secondary"
               ? styles.secondaryIcon
-              : styles.deleteIcon
+              : buttonData.style === "delete"
+              ? styles.deleteIcon
+              : styles.defaultIcon
           }
         />
       )}

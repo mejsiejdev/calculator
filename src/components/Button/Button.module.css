@@ -1,12 +1,8 @@
 .primary,
 .secondary,
-.delete {
+.delete,
+.default {
   @apply p-1 rounded-xl cursor-pointer flex flex-row items-center justify-center transition;
-}
-
-.primaryText,
-.secondaryText,
-.deleteText {
 }
 
 .primaryIcon,
@@ -15,8 +11,29 @@
   @apply h-10 w-10;
 }
 
+.default,
 .secondary {
-  @apply border-2 border-green-300 hover:bg-green-50 fill-green-400 text-green-400;
+  @apply border-2;
+}
+
+.default {
+  @apply border-black hover:bg-gray-100;
+}
+
+.defaultText {
+  @apply text-black;
+}
+
+.defaultIcon {
+  @apply fill-black;
+}
+
+.primary {
+  @apply bg-green-400 hover:bg-green-600;
+}
+
+.secondary {
+  @apply border-green-300 hover:bg-green-100;
 }
 
 .secondaryText {
@@ -31,6 +48,19 @@
   @apply bg-red-500 hover:bg-red-700;
 }
 
+.primaryText,
+.deleteText {
+  @apply text-white;
+}
+
+.primaryIcon,
 .deleteIcon {
   @apply fill-white;
+}
+
+.primaryText,
+.secondaryText,
+.deleteText,
+.defaultText {
+  @apply font-semibold text-3xl;
 }
