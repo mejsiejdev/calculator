@@ -1,5 +1,5 @@
 .body {
-  @apply bg-black absolute mb-24 py-1 px-2 z-10 rounded-lg shadow-lg;
+  @apply bg-black absolute mb-24 py-1 px-2 z-10 rounded-lg shadow-lg max-w-xs;
 }
 .text {
   @apply text-sm text-white;
