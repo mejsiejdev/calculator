@@ -20,17 +20,29 @@ type Action = {
   style?: "primary" | "secondary" | "delete";
 };
 
+const isTheLastCharacterAnOperator = (str: string) => {
+  const lastChar = str[str.length - 1];
+  return (
+    lastChar === "+" || lastChar === "-" || lastChar === "*" || lastChar === "/"
+  );
+};
+
 const App: React.FC = () => {
   const [currentValue, setCurrentValue] = useState<string>("");
   let result: string = currentValue;
-  if (
-    currentValue[currentValue.length - 1] !== "/" &&
-    currentValue[currentValue.length - 1] !== "*" &&
-    currentValue[currentValue.length - 1] !== "-" &&
-    currentValue[currentValue.length - 1] !== "+"
-  ) {
+  if (!isTheLastCharacterAnOperator(currentValue)) {
     result = format(evaluate(currentValue), { precision: 14 });
   }
+
+  const performAction = (symbol: string) => {
+    if (currentValue !== "") {
+      if (isTheLastCharacterAnOperator(currentValue)) {
+        setCurrentValue(`${currentValue.slice(0, -1)}${symbol}`);
+      } else {
+        setCurrentValue(`${currentValue}${symbol}`);
+      }
+    }
+  };
 
   const actions: Action[] = [
     {
@@ -47,13 +59,13 @@ const App: React.FC = () => {
     },
     {
       content: RiPercentLine,
-      onClick: () => setCurrentValue(`${currentValue}%`),
+      onClick: () => performAction("%"),
       tooltip: "Modulo",
       style: "secondary",
     },
     {
       content: RiDivideFill,
-      onClick: () => setCurrentValue(`${currentValue}/`),
+      onClick: () => performAction("/"),
       tooltip: "Divide",
       style: "secondary",
     },
@@ -71,7 +83,7 @@ const App: React.FC = () => {
     },
     {
       content: MdClose,
-      onClick: () => setCurrentValue(`${currentValue}*`),
+      onClick: () => performAction("*"),
       tooltip: "Multiply",
       style: "secondary",
     },
@@ -89,7 +101,7 @@ const App: React.FC = () => {
     },
     {
       content: MdRemove,
-      onClick: () => setCurrentValue(`${currentValue}-`),
+      onClick: () => performAction("-"),
       tooltip: "Subtract",
       style: "secondary",
     },
@@ -107,27 +119,29 @@ const App: React.FC = () => {
     },
     {
       content: MdAdd,
-      onClick: () => setCurrentValue(`${currentValue}+`),
+      onClick: () => performAction("+"),
       tooltip: "Add",
       style: "secondary",
     },
     {
       content: "+/-",
-      onClick: () => setCurrentValue(`(-${currentValue})`),
+      onClick: () => {
+        if (currentValue !== "") {
+          setCurrentValue(`(-${currentValue})`);
+        }
+      },
     },
     {
       content: "0",
       onClick: () => {
-        if (currentValue[currentValue.length - 1] === "/") {
-          result = "FUCK YOU";
-        } else {
+        if (currentValue[currentValue.length - 1] !== "/") {
           setCurrentValue(`${currentValue}0`);
         }
       },
     },
     {
       content: ".",
-      onClick: () => setCurrentValue(`${currentValue}.`),
+      onClick: () => performAction("."),
     },
     {
       content: MdDragHandle,
