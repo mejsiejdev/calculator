@@ -20,11 +20,11 @@ type Action = {
   style?: "primary" | "secondary" | "delete";
 };
 
+const operators = ["+", "-", "*", "/", "."];
+
 const isTheLastCharacterAnOperator = (str: string) => {
   const lastChar = str[str.length - 1];
-  return (
-    lastChar === "+" || lastChar === "-" || lastChar === "*" || lastChar === "/"
-  );
+  return [...operators, "(", ")"].includes(lastChar);
 };
 
 const App: React.FC = () => {
@@ -41,6 +41,25 @@ const App: React.FC = () => {
       } else {
         setCurrentValue(`${currentValue}${symbol}`);
       }
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    if (e.key == "Backspace") {
+      setCurrentValue(`${currentValue.slice(0, -1)}`);
+    }
+    if (e.key == "Delete") {
+      setCurrentValue("");
+    }
+    if (["Enter", "="].includes(e.key)) {
+      setCurrentValue(`${result}`);
+    }
+    if ([...operators, "(", ")"].includes(e.key)) {
+      performAction(e.key);
+    }
+    if (numbers.includes(e.key)) {
+      setCurrentValue(`${currentValue}${e.key}`);
     }
   };
 
@@ -151,7 +170,11 @@ const App: React.FC = () => {
     },
   ];
   return (
-    <div className="w-full bg-slate-100 min-h-screen flex flex-col items-center gap-6 justify-center">
+    <div
+      className="w-full bg-slate-100 min-h-screen flex flex-col items-center gap-6 justify-center outline-none"
+      tabIndex={1}
+      onKeyDown={(e) => handleKeyPress(e)}
+    >
       <p className="text-4xl font-semibold">simple calculator</p>
       <div className="max-w-sm w-full p-3 bg-white shadow-xl rounded-xl flex flex-col gap-3">
         <div className="flex flex-col items-end justify-start gap-1">
