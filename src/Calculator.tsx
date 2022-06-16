@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { format, evaluate } from "mathjs";
 import { useState } from "react";
+
 import { IconType } from "react-icons";
 import {
   MdDelete,
@@ -11,6 +12,7 @@ import {
   MdDragHandle,
 } from "react-icons/md";
 import { RiPercentLine, RiDivideFill } from "react-icons/ri";
+
 import Button from "./components/Button";
 
 type Action = {
@@ -170,42 +172,40 @@ const Calculator: React.FC = () => {
     },
   ];
   return (
-    <div
-      className="max-w-sm w-full p-3 bg-white shadow-xl rounded-xl flex flex-col gap-3"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="max-w-sm w-full p-3 bg-white dark:bg-neutral-700/70 shadow-xl rounded-xl flex flex-col gap-3"
       tabIndex={1}
       onKeyDown={(e) => handleKeyPress(e)}
     >
-      <div className="flex flex-col items-end justify-start gap-1">
-        <p className="text-4xl font-bold truncate pb-1">{currentValue}</p>
+      <div
+        className="flex flex-col items-end justify-start gap-1"
+      >
+        <p className="text-4xl font-bold truncate pb-1 text-neutral-900 dark:text-white">
+          {currentValue}
+        </p>
         <AnimatePresence>
-          {currentValue === result ? null : currentValue !== "" ? (
+          {currentValue !== result && (
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-slate-600 text-xl"
+              className="text-neutral-600 dark:text-neutral-300 text-xl"
             >
-              {result}
-            </motion.p>
-          ) : (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="text-slate-600 text-xl animate-pulse"
-            >
-              Pass in some values.
+              {currentValue !== "" ? result : "Pass in some values."}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
       <hr />
-      <div className="grid grid-cols-4 gap-2 w-full">
+      <div className="grid grid-cols-4 gap-3 w-full">
         {actions.map((action: Action, key) => (
           <Button {...action} key={key} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
