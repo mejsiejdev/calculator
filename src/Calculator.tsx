@@ -177,7 +177,6 @@ const Calculator: React.FC = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="max-w-sm w-full p-3 bg-white dark:bg-neutral-700/70 shadow-xl rounded-xl flex flex-col gap-3"
-      tabIndex={1}
       onKeyDown={(e) => handleKeyPress(e)}
     >
       <div
@@ -192,7 +191,7 @@ const Calculator: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-neutral-600 dark:text-neutral-300 text-xl"
+              className="text-neutral-800 dark:text-neutral-300 text-xl"
             >
               {currentValue !== "" ? result : "Pass in some values."}
             </motion.p>
