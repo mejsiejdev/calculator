@@ -12,50 +12,50 @@ type Props = {
   style?: "primary" | "secondary" | "delete";
 };
 
-const Button: React.FC<Props> = (buttonData) => {
+const Button: React.FC<Props> = (props) => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   return (
     <motion.button
       className={
-        buttonData.style === "primary"
+        props.style === "primary"
           ? styles.primary
-          : buttonData.style === "secondary"
+          : props.style === "secondary"
           ? styles.secondary
-          : buttonData.style === "delete"
+          : props.style === "delete"
           ? styles.delete
           : styles.default
       }
-      onClick={buttonData.onClick}
+      onClick={props.onClick}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      {buttonData.tooltip && (
+      {props.tooltip && (
         <AnimatePresence>
-          {showTooltip && <Tooltip content={buttonData.tooltip} />}
+          {showTooltip && <Tooltip content={props.tooltip} />}
         </AnimatePresence>
       )}
-      {typeof buttonData.content === "string" ? (
+      {typeof props.content === "string" ? (
         <p
           className={
-            buttonData.style === "primary"
+            props.style === "primary"
               ? styles.primaryText
-              : buttonData.style === "secondary"
+              : props.style === "secondary"
               ? styles.secondaryText
-              : buttonData.style === "delete"
+              : props.style === "delete"
               ? styles.deleteText
               : styles.defaultText
           }
         >
-          {buttonData.content}
+          {props.content}
         </p>
       ) : (
-        <buttonData.content
+        <props.content
           className={
-            buttonData.style === "primary"
+            props.style === "primary"
               ? styles.primaryIcon
-              : buttonData.style === "secondary"
+              : props.style === "secondary"
               ? styles.secondaryIcon
-              : buttonData.style === "delete"
+              : props.style === "delete"
               ? styles.deleteIcon
               : styles.defaultIcon
           }
