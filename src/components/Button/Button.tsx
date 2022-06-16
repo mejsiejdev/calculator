@@ -25,6 +25,7 @@ const Button: React.FC<Props> = (props) => {
           ? styles.delete
           : styles.default
       }
+      aria-label={typeof props.content === "string" ? props.content : props.tooltip}
       onClick={props.onClick}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
