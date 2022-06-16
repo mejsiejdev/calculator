@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { IconType } from "react-icons";
-import Tooltip from "../Tooltip";
 import styles from "./Button.module.css";
+
+const Tooltip = lazy(() => import("../Tooltip"));
 
 type Props = {
   content: IconType | string;
