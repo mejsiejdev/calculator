@@ -178,9 +178,6 @@ const Calculator: React.FC = () => {
       style: "primary",
     },
   ];
-  console.log("result: ", result);
-  console.log("currentValue: ", currentValue);
-  console.log("empty string: ", "")
   return (
     <motion.div
       initial={{ opacity: 0 }}
