@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { format, evaluate } from "mathjs";
 import { useState } from "react";
 
 import { IconType } from "react-icons";
@@ -24,7 +23,7 @@ type Action = {
 
 const operators = ["+", "-", "*", "/", "."];
 
-const isTheLastCharacterAnOperator = (str: string) => {
+const isTheLastCharacterAnOperator: Function = (str: string) => {
   const lastChar = str[str.length - 1];
   return [...operators].includes(lastChar);
 };
@@ -33,7 +32,15 @@ const Calculator: React.FC = () => {
   const [currentValue, setCurrentValue] = useState<string>("");
   let result: string = currentValue;
   if (!isTheLastCharacterAnOperator(currentValue)) {
-    result = format(evaluate(currentValue), { precision: 14 });
+    import("mathjs").then((math) => {
+      result = math.format(math.evaluate(currentValue), {
+        precision: 14,
+      });
+    });
+    /*
+    (async () => {
+      const { default: evaluate } = await import("mathjs");
+    })()*/
   }
 
   const performAction = (symbol: string) => {
@@ -171,6 +178,9 @@ const Calculator: React.FC = () => {
       style: "primary",
     },
   ];
+  console.log("result: ", result);
+  console.log("currentValue: ", currentValue);
+  console.log("empty string: ", "")
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -179,14 +189,12 @@ const Calculator: React.FC = () => {
       className="max-w-sm w-full p-3 bg-white dark:bg-neutral-700/70 shadow-xl rounded-xl flex flex-col gap-3"
       onKeyDown={(e) => handleKeyPress(e)}
     >
-      <div
-        className="flex flex-col items-end justify-start gap-1"
-      >
+      <div className="flex flex-col items-end justify-start gap-1">
         <p className="text-4xl font-bold truncate pb-1 text-neutral-900 dark:text-white">
           {currentValue}
         </p>
         <AnimatePresence>
-          {currentValue !== result && (
+          {(currentValue !== result || result === "") && (
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
