@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import Spinner from "./components/Spinner";
 
-const Calculator = lazy(() => import("./Calculator"));
+const Calculator = lazy(() => import("./components/Calculator"));
 
 const App: React.FC = () => {
   return (
