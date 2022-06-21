@@ -17,11 +17,11 @@
 }
 
 .default {
-  @apply border-black hover:bg-gray-100;
+  @apply border-neutral-900 hover:bg-gray-100 dark:border-neutral-300 dark:hover:bg-neutral-700;
 }
 
 .defaultText {
-  @apply text-black;
+  @apply text-neutral-900 dark:text-white;
 }
 
 .defaultIcon {
@@ -33,7 +33,7 @@
 }
 
 .secondary {
-  @apply border-green-300 hover:bg-green-100;
+  @apply border-green-300 hover:bg-green-100 dark:hover:bg-green-900;
 }
 
 .secondaryText {
