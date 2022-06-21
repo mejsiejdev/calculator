@@ -1,28 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { format } from "mathjs";
 
-export const counterSlice = createSlice({
-  name: "counter",
+const operators = ["+", "-", "*", "/", "."];
+
+const isTheLastCharacterAnOperator: Function = (str: string) => {
+  const lastChar = str[str.length - 1];
+  return operators.includes(lastChar);
+};
+
+export const calculatorSlice = createSlice({
+  name: "calculator",
   initialState: {
-    value: 0,
+    value: "",
   },
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    append: (state, action) => {
+      if (isNaN(action.payload)) {
+        if (state.value !== "") {
+          if (isTheLastCharacterAnOperator(state.value)) {
+            state.value = `${state.value.slice(0, -1)}${action.payload}`;
+          } else {
+            state.value += action.payload;
+          }
+        }
+      } else {
+        state.value += action.payload;
+      }
     },
-    decrement: (state) => {
-      state.value -= 1;
+    clear: (state) => {
+      state.value = "";
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    calculate: (state) => {
+      state.value = format(eval(state.value), {
+        precision: 14,
+      });
+    },
+    removeLastCharacter: (state) => {
+      if (state.value !== "") {
+        state.value = state.value.slice(0, -1);
+      }
+    },
+    negative: (state) => {
+      if (state.value !== "") {
+        if (state.value[0] === "-") {
+          state.value = state.value.slice(1);
+        } else {
+          state.value = `-${state.value}`;
+        }
+      }
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { append, clear, calculate, removeLastCharacter, negative } =
+  calculatorSlice.actions;
 
-export default counterSlice.reducer;
+export default calculatorSlice.reducer;
