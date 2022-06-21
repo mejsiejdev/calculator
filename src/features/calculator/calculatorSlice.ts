@@ -45,7 +45,7 @@ export const calculatorSlice = createSlice({
         if (state.value[0] === "-") {
           state.value = state.value.slice(1);
         } else {
-          state.value = `-${state.value}`;
+          state.value = `(-${state.value})`;
         }
       }
     },
