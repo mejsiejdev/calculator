@@ -1,11 +1,10 @@
 // React Redux
 import { useDispatch } from "react-redux";
-import { ActionCreators } from 'redux-undo';
+import { ActionCreators } from "redux-undo";
 import {
   append,
   clear,
   calculate,
-  removeLastCharacter,
   negative,
 } from "../../../features/calculator/calculatorSlice";
 
@@ -13,7 +12,6 @@ import {
 import { IconType } from "react-icons";
 import {
   MdDelete,
-  MdOutlineBackspace,
   MdClose,
   MdRemove,
   MdAdd,
