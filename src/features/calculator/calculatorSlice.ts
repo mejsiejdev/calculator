@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { format } from "mathjs";
+import { format, evaluate } from "mathjs";
 
 const operators = ["+", "-", "*", "/", "."];
 
@@ -31,20 +31,17 @@ export const calculatorSlice = createSlice({
       state.value = "";
     },
     calculate: (state) => {
-      state.value = format(eval(state.value), {
-        precision: 14,
-      });
-    },
-    removeLastCharacter: (state) => {
-      if (state.value !== "") {
-        state.value = state.value.slice(0, -1);
-      }
+      state.value = format(evaluate(state.value), { precision: 14 });
     },
     negative: (state) => {
       if (state.value !== "") {
         if (state.value[0] === "-") {
           state.value = state.value.slice(1);
         } else {
+          if (isTheLastCharacterAnOperator(state.value))
+          {
+            state.value = state.value.slice(0, -1);
+          }
           state.value = `(-${state.value})`;
         }
       }
@@ -53,7 +50,7 @@ export const calculatorSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { append, clear, calculate, removeLastCharacter, negative } =
+export const { append, clear, calculate, negative } =
   calculatorSlice.actions;
 
 export default calculatorSlice.reducer;
