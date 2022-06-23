@@ -1,5 +1,6 @@
 // React Redux
 import { useDispatch } from "react-redux";
+import { ActionCreators } from 'redux-undo';
 import {
   append,
   clear,
@@ -17,6 +18,7 @@ import {
   MdRemove,
   MdAdd,
   MdDragHandle,
+  MdUndo,
 } from "react-icons/md";
 import { RiPercentLine, RiDivideFill } from "react-icons/ri";
 import Button from "../../Button";
@@ -38,9 +40,9 @@ const Keypad: React.FC = () => {
       style: "delete",
     },
     {
-      content: MdOutlineBackspace,
-      onClick: () => dispatch(removeLastCharacter()),
-      tooltip: "Delete one character",
+      content: MdUndo,
+      onClick: () => dispatch(ActionCreators.undo()),
+      tooltip: "Undo",
       style: "secondary",
     },
     {
