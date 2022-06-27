@@ -14,8 +14,10 @@ const App: React.FC = () => {
           <span className="animate-wave inline-block origin-bottom-right mr-1.5">
             👋
           </span>
+          <span className="text-neutral-900 dark:text-white">
           Hello dear user! If you notice any issue, <br /> let me know about it
           on GitHub{" "}
+          </span>
           <a
             className="text-sky-400 font-semibold hover:text-sky-500 hover:underline transition"
             target={"_blank"}
