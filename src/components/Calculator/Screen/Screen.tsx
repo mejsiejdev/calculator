@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-import { format } from "mathjs";
 import store from "../../../app/store";
 
 const operators = ["+", "-", "*", "/", "."];
@@ -11,18 +10,33 @@ const isTheLastCharacterAnOperator: Function = (str: string) => {
   return operators.includes(lastChar);
 };
 
-const Screen: React.FC = () => {
-  const currentValue = useSelector(
-    (state: ReturnType<typeof store.getState>) => state.calculator.value
-  );
-  let result: string = currentValue;
-  if (currentValue !== "") {
-    if (!isTheLastCharacterAnOperator(currentValue)) {
-      result = format(eval(currentValue), {
-        precision: 14,
-      });
+const includesOperator: Function = (str: string) => {
+  operators.forEach((operator) => {
+    if (str.includes(operator)) {
+      return true;
     }
-  }
+  });
+  return false;
+};
+
+const Screen: React.FC = () => {
+  const currentValue: string = useSelector(
+    (state: ReturnType<typeof store.getState>) => state.calculator.present.value
+  );
+  const [result, setResult] = useState(currentValue);
+  useEffect(() => {
+    if (currentValue !== "" && !includesOperator(currentValue)) {
+      if (!isTheLastCharacterAnOperator(currentValue)) {
+        import("mathjs").then((math) => {
+          setResult(
+            math.format(math.evaluate(currentValue), { precision: 14 })
+          );
+        });
+      }
+    } else if (currentValue === "") {
+      setResult("");
+    }
+  }, [currentValue]);
   return (
     <div className="flex flex-col items-end justify-start gap-1">
       <p className="text-4xl font-bold truncate pb-1 text-neutral-900 dark:text-white">

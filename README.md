@@ -2,15 +2,19 @@
 
 ## What is it?
 
-### This is a simple calculator app.
+### It is a simple calculator app.
 
-It is capable of everything that a standard calculator can do, such as:
+It's capable of everything that a standard calculator can do, such as:
 
 - addition
 - subtraction
 - multiplication
 - division
-- modulo
+- modulo / percent
+
+It also has `undo` button so you can undo any unnecessary changes you have made.
+
+**If you encounter any issues with it, let me know about them [here.](https://github.com/mejsiejdev/calculator/issues)**
 
 ## Used technologies
 
